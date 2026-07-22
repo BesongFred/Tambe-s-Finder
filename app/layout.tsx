@@ -18,6 +18,8 @@ export default function RootLayout({ children }:{ children: ReactNode }) {
               <a href="/about" className="text-sm">About</a>
               <a href="/blog" className="text-sm">Blog</a>
               <a href="/contact" className="text-sm">Contact</a>
+              <a href="/auth/login" className="text-sm">Sign in</a>
+              <a href="/auth/signup" className="text-sm">Sign up</a>
             </nav>
           </div>
         </header>
