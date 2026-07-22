@@ -33,14 +33,14 @@ export default function ContactPage(){
                 <h3 className="text-xl font-semibold mb-4 text-[#0F4C5C]">Contact Information</h3>
                 <ul className="text-sm text-gray-700 space-y-3">
                   <li><strong>Address:</strong> 123 Tambe Road, City, Country</li>
-                  <li><strong>Phone:</strong> +234 800 000 0000</li>
+                  <li><strong>Phone:</strong> 676775659</li>
                   <li><strong>Email:</strong> besongrobert30@gmail.com</li>
                   <li><strong>Opening Hours:</strong> Mon - Sun • 7:00 AM - 10:00 PM</li>
                 </ul>
 
                 <div className="mt-6">
                   <h4 className="text-sm font-medium text-gray-700 mb-2">Follow Us</h4>
-                  <SocialLinks />
+                  <SocialLinks/>
                 </div>
               </div>
 

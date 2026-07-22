@@ -9,25 +9,25 @@ import { Breadcrumbs } from "../../components/Breadcrumbs";
 const galleryImages = [
   {
     id: 1,
-    src: "/images/gallery/room1.jpg",
+    src: "/images/gallery/1.jpg",
     category: "Rooms",
     alt: "Luxury bedroom",
   },
   {
     id: 2,
-    src: "/images/gallery/reception1.jpg",
+    src: "/images/gallery/0.jpg",
     category: "Reception",
     alt: "Reception area",
   },
   {
     id: 3,
-    src: "/images/gallery/dining1.jpg",
+    src: "/images/gallery/Robert.jpeg",
     category: "Dining",
     alt: "Restaurant interior",
   },
   {
     id: 4,
-    src: "/images/gallery/pool1.jpg",
+    src: "/images/gallery/3.webp",
     category: "Pool",
     alt: "Swimming pool",
   },
