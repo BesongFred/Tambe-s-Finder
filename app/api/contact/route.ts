@@ -1,8 +1,19 @@
 import { NextResponse } from 'next/server'
-import nodemailer from 'nodemailer'
 
 export async function POST(request: Request) {
   try {
+    // Validate required env vars early to provide clear errors
+    const required = ['SMTP_HOST', 'SMTP_PORT', 'SMTP_USER', 'SMTP_PASS', 'EMAIL_TO']
+    const missing = required.filter(k => !process.env[k])
+    if (missing.length) {
+      console.error('Missing required SMTP env vars:', missing)
+      return NextResponse.json({ ok: false, error: `Missing env vars: ${missing.join(', ')}` }, { status: 500 })
+    }
+
+    // Dynamic import to avoid Next.js bundling server-only modules at build time
+    const nodemailerMod = await import('nodemailer')
+    const nodemailer = nodemailerMod?.default ?? nodemailerMod
+
     const form = await request.formData()
     const name = form.get('name')?.toString() || 'Anonymous'
     const email = form.get('email')?.toString() || ''
@@ -10,10 +21,10 @@ export async function POST(request: Request) {
     const subject = form.get('subject')?.toString() || 'Contact form submission'
     const message = form.get('message')?.toString() || ''
 
-    const emailSubject = `Website Contact: ${subject} — ${name}`
-    const emailText = `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nSubject: ${subject}\n\nMessage:\n${message}`
+    // Masked logging for privacy
+    console.log('Contact request received', { from: name, email, subject })
+    console.log('Using SMTP host:', process.env.SMTP_HOST?.replace(/([^.])/g, '*').slice(0, 8))
 
-    // Transporter configured via environment variables
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: Number(process.env.SMTP_PORT || 465),
@@ -24,7 +35,9 @@ export async function POST(request: Request) {
       },
     })
 
-    // Send mail
+    const emailSubject = `Website Contact: ${subject} — ${name}`
+    const emailText = `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nSubject: ${subject}\n\nMessage:\n${message}`
+
     await transporter.sendMail({
       from: `"Tambe Guest House" <${process.env.SMTP_USER}>`,
       to: process.env.EMAIL_TO,
@@ -41,6 +54,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true, message: 'Message sent' })
   } catch (err: any) {
     console.error('Contact form error:', err)
-    return NextResponse.json({ ok: false, error: err?.message || 'Failed to send message' }, { status: 500 })
+    const msg = err?.message || 'Failed to send message'
+    return NextResponse.json({ ok: false, error: msg }, { status: 500 })
   }
 }
