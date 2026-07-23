@@ -1,6 +1,7 @@
 import './globals.css'
 import Link from 'next/link'
 import { ReactNode } from 'react'
+import MainNav from '../components/MainNav'
 
 export const metadata = {
   title: "Tambe Guest House — Luxury Boutique Guest House",
@@ -30,18 +31,11 @@ export default function RootLayout({ children }:{ children: ReactNode }) {
               </div>
             </Link>
 
-            <nav aria-label="Main navigation" className="space-x-4 hidden md:flex items-center">
-              <Link href="/" className="text-sm hover:text-[var(--color-gold)] transition">Home</Link>
-              <Link href="/rooms" className="text-sm hover:text-[var(--color-gold)] transition">Rooms</Link>
-              <Link href="/gallery" className="text-sm hover:text-[var(--color-gold)] transition">Gallery</Link>
-              <Link href="/amenities" className="text-sm hover:text-[var(--color-gold)] transition">Amenities</Link>
-              <Link href="/about" className="text-sm hover:text-[var(--color-gold)] transition">About</Link>
-              <Link href="/contact" className="text-sm hover:text-[var(--color-gold)] transition">Contact</Link>
-            </nav>
+            <MainNav />
 
             <div className="flex items-center gap-3">
-              <Link href="/auth/login" className="text-sm">Sign in</Link>
-              <Link href="/auth/signup" className="text-sm">Sign up</Link>
+              <Link href="/auth/signin" className="text-sm">Sign in</Link>
+              <Link href="/auth/create-account" className="text-sm">Sign up</Link>
             </div>
           </div>
         </header>
