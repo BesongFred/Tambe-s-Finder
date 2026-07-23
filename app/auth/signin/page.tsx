@@ -9,10 +9,6 @@ import AuthButton from "../../../components/AuthButton"
 import SocialButton from "../../../components/SocialButton"
 import Logo from "../../../components/Logo"
 
-export const metadata = {
-  title: 'Sign In — Tambe Guest House',
-  description: 'Sign in to your Tambe Guest House account to manage bookings and access exclusive benefits.'
-}
 
 export default function SignInPage(){
   const [email, setEmail] = useState("")
