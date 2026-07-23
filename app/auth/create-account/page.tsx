@@ -1,11 +1,12 @@
 "use client"
 
-import React, { useState, useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { Eye, EyeOff, Facebook, Apple } from "lucide-react"
 import PasswordStrength from "../../../components/PasswordStrength"
 import Spinner from "../../../components/Spinner"
+import { useRouter } from "next/navigation"
 
 export default function CreateAccountPage(){
   const [firstName, setFirstName] = useState('')
@@ -24,6 +25,7 @@ export default function CreateAccountPage(){
   const [errors, setErrors] = useState<Record<string,string>>({})
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState<string | null>(null)
+  const router = useRouter()
 
   useEffect(()=>{ // clear success on field change
     if(success) setSuccess(null)
@@ -51,21 +53,19 @@ export default function CreateAccountPage(){
     setErrors({})
 
     try{
-      // simulate API call
-      await new Promise((r)=>setTimeout(r,1300))
+      const res = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ firstName, lastName, username, email, phone, country, password })
+      })
+      const body = await res.json()
+      if(!res.ok) {
+        setErrors({ form: body?.error || 'Failed to create account' })
+        return
+      }
 
-      // TODO: call your signup API here
-      setSuccess('Account created successfully. Check your email to verify your account.')
-      // reset form
-      setFirstName('')
-      setLastName('')
-      setUsername('')
-      setEmail('')
-      setPhone('')
-      setCountry('')
-      setPassword('')
-      setConfirm('')
-      setAgree(false)
+      // on success redirect to signin with message
+      router.push('/auth/signin?created=1')
     }catch(err:any){
       setErrors({ form: err?.message || 'Failed to create account' })
     }finally{
@@ -124,7 +124,6 @@ export default function CreateAccountPage(){
                 <form onSubmit={onSubmit} aria-label="Create account form" className="space-y-4">
 
                   {errors.form && <div className="text-sm text-red-700 bg-red-100 p-3 rounded">{errors.form}</div>}
-                  {success && <div className="text-sm text-green-800 bg-green-100 p-3 rounded">{success}</div>}
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <label className="block">
