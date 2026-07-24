@@ -8,12 +8,7 @@ import AuthInput from "../../../components/AuthInput"
 import AuthButton from "../../../components/AuthButton"
 import SocialButton from "../../../components/SocialButton"
 import Logo from "../../../components/Logo"
-import { useRouter, useSearchParams } from "next/navigation"
 
-export const metadata = {
-  title: 'Sign In — Tambe Guest House',
-  description: 'Sign in to your Tambe Guest House account to manage bookings and access exclusive benefits.'
-}
 
 
 export default function SignInPage(){
@@ -24,12 +19,8 @@ export default function SignInPage(){
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
-  const router = useRouter()
-  const params = useSearchParams()
 
   useEffect(()=>{
-    // show success after redirect from signup
-    if(params?.get('created')) setSuccess('Account created successfully. Please sign in.')
     try{
       const saved = localStorage.getItem('tambe_remember_email')
       if(saved){ setEmail(saved); setRemember(true) }
@@ -52,13 +43,11 @@ export default function SignInPage(){
 
     setLoading(true)
     try{
-      const res = await fetch('/api/auth/signin', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) })
-      const body = await res.json()
-      if(!res.ok){ setError(body?.error || 'Invalid credentials'); return }
+      await new Promise((r)=>setTimeout(r,900))
+      if(password === 'wrong'){ throw new Error('Invalid credentials') }
       if(remember){ try{ localStorage.setItem('tambe_remember_email', email) }catch(e){} }
       else { try{ localStorage.removeItem('tambe_remember_email') }catch(e){} }
-      // redirect to homepage
-      router.push('/')
+      setSuccess('Signed in successfully — redirecting...')
     }catch(err:any){
       setError(err?.message || 'Failed to sign in')
     }finally{

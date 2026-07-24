@@ -1,1 +1,13 @@
-[]
+[
+  {
+    "id": "mry3bk1fup8xic",
+    "firstName": "besong",
+    "lastName": "robert",
+    "username": "fred",
+    "email": "besongrobert30@gmail.com",
+    "phone": "676775659",
+    "country": "cameroon",
+    "passwordHash": "$2a$10$M3yELd.Tg4FeQr6ZWIiykeFqYv1GKHAYf61cPVhURC71WBzETs19u",
+    "createdAt": "2026-07-23T22:36:01.904Z"
+  }
+]
